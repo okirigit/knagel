@@ -1,5 +1,6 @@
 package com.kuehne.nagel.interview.Models;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Document(collection = "users")
@@ -57,8 +59,11 @@ public void setPassword(String pass){
 }
 @Override
 public Collection<? extends GrantedAuthority> getAuthorities() {
-  // TODO Auto-generated method stub
-  return null;
+    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    for (String role : roles) {
+        authorities.add(new SimpleGrantedAuthority(role));
+    }
+    return authorities;
 }
 @Override
 public boolean isAccountNonExpired() {

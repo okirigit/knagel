@@ -53,7 +53,7 @@ public class LoginController {
 
 
           //  userauth.loadUserByUsername(userObject.getUsername());
-            return ResponseEntity.ok(jwt);
+            return ResponseEntity.ok(response.toString());
           }
       } catch (SignatureException e) {
           // TODO Auto-generated catch block

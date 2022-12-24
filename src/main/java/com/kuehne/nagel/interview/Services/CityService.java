@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.kuehne.nagel.interview.CityImport;
 import com.kuehne.nagel.interview.Models.City;
 import com.kuehne.nagel.interview.Repository.CityRepository;
 
@@ -27,11 +28,17 @@ public class CityService  {
   List<City> cities = new ArrayList<City>();
   @Autowired
   private  CityRepository cityRepository;
+  private CityImport csvCities;
+  
 
   //method to fetch all cities
   public Page<City> findAll(Pageable pageable) {
     if(cities.size() < 1)
     cities = cityRepository.findAll();
+    if(cities.size() < 1){
+      csvCities.importCities();
+      cities = cityRepository.findAll();
+    }
     Collections.sort(cities);
     
     int pageSize = pageable.getPageSize();
